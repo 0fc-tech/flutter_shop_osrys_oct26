@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_shop/models/cart.dart';
 import 'package:flutter_shop/product.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
-class ListViewProducts extends StatelessWidget {
+class ListViewProducts extends ConsumerWidget {
   final List<Product> products;
   final bool modeDelete;
   const new({super.key, required this.products, this.modeDelete = false});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListView.separated(
       itemCount: products.length,
       separatorBuilder: (_, _) => Divider(),
@@ -26,9 +26,9 @@ class ListViewProducts extends StatelessWidget {
           trailing: TextButton(
             onPressed: () {
               if (modeDelete) {
-                context.read<Cart>().removeProduct(products[index]);
+                ref.read(cartProvider.notifier).removeProduct(products[index]);
               } else {
-                context.read<Cart>().addProduct(products[index]);
+                ref.read(cartProvider.notifier).addProduct(products[index]);
               }
             },
             child: Text(modeDelete ? "Retirer" : "Ajouter".toUpperCase()),

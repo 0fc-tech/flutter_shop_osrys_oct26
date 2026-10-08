@@ -1,18 +1,19 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_shop/models/cart.dart';
 import 'package:flutter_shop/presentation/widgets/list_view_products.dart';
 import 'package:flutter_shop/product.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
-import 'package:provider/provider.dart';
 
-class ListProductsPage extends StatelessWidget {
+class ListProductsPage extends ConsumerWidget {
   const ListProductsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cart = ref.watch(cartProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -23,7 +24,7 @@ class ListProductsPage extends StatelessWidget {
               context.go('cart');
             },
             icon: Badge.count(
-              count: context.watch<Cart>().products.length,
+              count: cart.length,
               child: Icon(Icons.shopping_cart),
             ),
           ),

@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_shop/models/cart.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_shop/presentation/widgets/list_view_products.dart';
 
-import '../widgets/list_view_products.dart';
-
-class CartPage extends StatelessWidget {
+class CartPage extends ConsumerWidget {
   const CartPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cart = ref.watch(cartProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text("Mon panier"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: Consumer<Cart>(
-        builder: (context, cart, child) {
-          if (cart.products.isEmpty) {
-            return Stack(
+      body: cart.isEmpty
+          ? Stack(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -25,25 +23,20 @@ class CartPage extends StatelessWidget {
                 ),
                 EmptyCart(),
               ],
-            );
-          } else {
-            return Column(
+            )
+          : Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: RowTotal(total: cart.totalPrice),
-                ),
-                Expanded(
-                  child: ListViewProducts(
-                    products: cart.products,
-                    modeDelete: true,
+                  child: RowTotal(
+                    total: ref.watch(cartProvider.notifier).totalPrice,
                   ),
                 ),
+                Expanded(
+                  child: ListViewProducts(products: cart, modeDelete: true),
+                ),
               ],
-            );
-          }
-        },
-      ),
+            ),
     );
   }
 }
