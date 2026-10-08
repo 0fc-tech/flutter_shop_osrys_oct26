@@ -1,7 +1,7 @@
-import 'package:flutter_shop/pages/cart_page.dart';
-import 'package:flutter_shop/pages/detail_product_page.dart';
-import 'package:flutter_shop/pages/error_page.dart';
-import 'package:flutter_shop/pages/list_products_page.dart';
+import 'package:flutter_shop/presentation/pages/cart_page.dart';
+import 'package:flutter_shop/presentation/pages/detail_product_page.dart';
+import 'package:flutter_shop/presentation/pages/error_page.dart';
+import 'package:flutter_shop/presentation/pages/list_products_page.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
