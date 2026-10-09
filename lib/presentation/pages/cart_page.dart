@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_shop/models/cart.dart';
 import 'package:flutter_shop/presentation/widgets/list_view_products.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../l10n/app_localizations.dart';
 
 class CartPage extends ConsumerWidget {
   const CartPage({super.key});
@@ -11,8 +14,16 @@ class CartPage extends ConsumerWidget {
     final cart = ref.watch(cartProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Mon panier"),
+        title: Text(L10n.of(context)?.monPanier ?? ""),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.go('cart/map');
+            },
+            icon: Icon(Icons.map),
+          ),
+        ],
       ),
       body: cart.isEmpty
           ? Stack(
@@ -47,15 +58,19 @@ class RowTotal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text("Votre panier total est de"),
-        Spacer(),
-        Text(
-          "${total.toStringAsFixed(2)}€",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ],
+    return Semantics(
+      label: "Total : ${total.toStringAsFixed(2)}€",
+      excludeSemantics: true,
+      child: Row(
+        children: [
+          Text("Votre panier total est de"),
+          Spacer(),
+          Text(
+            "${total.toStringAsFixed(2)}€",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
     );
   }
 }

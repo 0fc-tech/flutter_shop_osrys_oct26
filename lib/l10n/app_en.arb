@@ -1,0 +1,6 @@
+{
+  "monPanier":"My Cart",
+  "@monPanier":{
+    "description":"Titre affiché dans la top bar de la page Panier"
+  }
+}

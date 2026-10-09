@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_shop/models/cart.dart';
 import 'package:flutter_shop/product.dart';
 import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
 
 class DetailProductPage extends StatelessWidget {
   //Récupérer l'identifiant d'un produit OU le produit
@@ -87,6 +88,15 @@ class PageProduct extends ConsumerWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(product.description),
               ),
+            ),
+            OutlinedButton.icon(
+              onPressed: () async {
+                final image = await ImagePicker().pickImage(
+                  source: ImageSource.gallery,
+                );
+              },
+              label: Text("Joindre une photo"),
+              icon: Icon(Icons.attach_file),
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
